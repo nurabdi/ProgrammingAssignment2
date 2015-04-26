@@ -12,8 +12,10 @@ makeCacheMatrix <- function(x = matrix()) {
   
 ## initiating empty matrix "invm"  
   invm <- NULL
-  
+
+## set the matrix  
   set <- function(y) {
+    
 ## substituting the value of x with y
     x <<- y
     
@@ -21,6 +23,7 @@ makeCacheMatrix <- function(x = matrix()) {
     invm <<- NULL
   }
 
+## get the matrix
   get <- function() x
 
 ## set the inverse matrix
@@ -29,19 +32,23 @@ makeCacheMatrix <- function(x = matrix()) {
 ## get the inverse matrix
   getinverse_m <- function() invm
 
+## list of the newly defined functions that we need to return
+
   list(set=set, get=get, setinverse_m=setinverse_m, getinverse_m=getinverse_m)  
 
 }
 
 
 ## This function, "cacheSolve", assumes that the inverse matrix is been computed.
-## If the inverse matrix is not computed, it gets it from the cache in 
-## makeCacheMatrix, computes the inverse of the special "matrix" and returns it.
+## So, if computed it returns. If not computed, it computes the inverse 
+## of the special "matrix" and returns it.
 
 cacheSolve <- function(x, ...) {
   
   invm <- x$getinverse()
   
+## this function return the matrix if is already computed
+ 
   if(!is.null(invm)) {
     
     message("getting cached data.")
@@ -49,11 +56,16 @@ cacheSolve <- function(x, ...) {
     return(invm)
   }
   
+## the inverse is not computed so we compute it here
   data <- x$get()
   
   invm <- solve(data)
+
+## inverse is cahed here
   
   x$setinverse(invm)
+
+## the inverse matrix is returned
   
   invm
 }
